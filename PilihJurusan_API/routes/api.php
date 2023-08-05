@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FoodController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CekLogin;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,11 +22,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/checkToken', [AuthController::class, 'checkToken']);  
+    Route::get('/foods-index', [FoodController::class, 'index']);
+    Route::get('/foods', [FoodController::class, 'retrieve']);  
     Route::get('/foods/{id}', [FoodController::class, 'show']);  
     Route::post('/foods', [FoodController::class, 'store']);
     Route::put('/foods/{id}', [FoodController::class, 'update']);

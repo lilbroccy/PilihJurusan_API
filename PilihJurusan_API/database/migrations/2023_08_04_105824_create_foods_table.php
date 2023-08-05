@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('price');
             $table->string('description');
+            $table->boolean('retrieve')->default(false);
             $table->timestamps();
         });
     }
@@ -30,10 +31,5 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('foods');
-        $table->id();
-            $table->string('name');
-            $table->integer('price');
-            $table->string('description');
-            $table->timestamps();
     }
 };

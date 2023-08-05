@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Food;
 use Illuminate\Http\Request;
+use App\Http\Resources\FoodResource;
+use App\Http\Resources\FoodsResource;
 
 class FoodController extends Controller
 {
     //
+    public function index(){
+        $foods = Food::All();
+
+        return response([
+            'foods' => $foods,
+            'message' => 'server is running'
+        ], 200);
+    }
+
     public function store(Request $request){
         $rules = [
             'name' => 'required',
@@ -37,7 +48,16 @@ class FoodController extends Controller
             return response()->json(['message' => 'Not Found'], 404);
         }
 
-        return response()->json(['food' => $food, 'message' => 'Success retrieving food'], 200);
+        $food->retrieve = 1;
+        $food->update();
+
+        return new FoodResource($food);
+    }
+
+    public function retrieve(){
+        $foods = Food::All();
+
+        return new FoodsResource($foods);
     }
 
     public function update(Request $request, $id) {
