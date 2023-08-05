@@ -20,14 +20,6 @@ class AuthController extends Controller
             $user = User::where('email', $formField['email'])->first();
             $token = $user->createToken('pilihjurusan')->plainTextToken;
 
-            $user = Auth::user();
-            $accessToken = $user->token();
-        
-        if (!$accessToken || $accessToken->revoked) {
-            // Token tidak valid atau sudah dinonaktifkan
-            return response()->json(['message' => 'Token tidak valid. Harap login ulang.'], 401);
-        }
-
             return response([
                 'user' => $user,
                 'token' => $token,
